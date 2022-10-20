@@ -19,10 +19,14 @@ def regularized_cross_entropy(layers, lam, x):
 def leakyReLU(x, alpha=0.001):
     return x * alpha if x < 0 else x
 
+def ReLU(x):
+    return np.maximum(0, x)
+
+def ReLU_grad(x):
+    return np.greater(x, 0.).astype(np.float32)
 
 def leakyReLU_derivative(x, alpha=0.01):
     return alpha if x < 0 else 1
-
 
 def lr_schedule(learning_rate, iteration): # updated code , this will fix the error 
     if iteration == 0:
@@ -34,7 +38,7 @@ def lr_schedule(learning_rate, iteration): # updated code , this will fix the er
     if iteration > 30000:
         return learning_rate * 0.1
 
-class Convolutional:                                        # convolution layer using 3x3 filters
+class Conv2D:                                        # convolution layer using 3x3 filters
 
     def __init__(self, name, num_filters=16, stride=1, size=3, activation=None):
         self.name = name

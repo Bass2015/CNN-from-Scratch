@@ -1,4 +1,4 @@
-from layer import Convolutional, Pooling, FullyConnected, Dense, regularized_cross_entropy, lr_schedule
+from layer import Conv2D, Pooling, FullyConnected, Dense, regularized_cross_entropy, lr_schedule
 from inout import plot_sample, plot_learning_curve, plot_accuracy_curve, plot_histogram
 import numpy as np
 import time
@@ -8,20 +8,23 @@ class Network:
     def __init__(self):
         self.layers = []
 
+    def __call__(self, state):
+        return self.forward(state)
+
     def add_layer(self, layer):
         self.layers.append(layer)
 
     def build_model(self, dataset_name):
         if dataset_name is 'mnist':
-            self.add_layer(Convolutional(name='conv1', num_filters=8, stride=2, size=3, activation='relu'))
-            self.add_layer(Convolutional(name='conv2', num_filters=8, stride=2, size=3, activation='relu'))
+            self.add_layer(Conv2D(name='conv1', num_filters=8, stride=2, size=3, activation='relu'))
+            self.add_layer(Conv2D(name='conv2', num_filters=8, stride=2, size=3, activation='relu'))
             self.add_layer(Dense(name='dense', nodes=8 * 6 * 6, num_classes=10))
         else:
-            self.add_layer(Convolutional(name='conv1', num_filters=32, stride=1, size=3, activation='relu'))
-            self.add_layer(Convolutional(name='conv2', num_filters=32, stride=1, size=3, activation='relu'))
+            self.add_layer(Conv2D(name='conv1', num_filters=32, stride=1, size=3, activation='relu'))
+            self.add_layer(Conv2D(name='conv2', num_filters=32, stride=1, size=3, activation='relu'))
             self.add_layer(Pooling(name='pool1', stride=2, size=2))
-            self.add_layer(Convolutional(name='conv3', num_filters=64, stride=1, size=3, activation='relu'))
-            self.add_layer(Convolutional(name='conv4', num_filters=64, stride=1, size=3, activation='relu'))
+            self.add_layer(Conv2D(name='conv3', num_filters=64, stride=1, size=3, activation='relu'))
+            self.add_layer(Conv2D(name='conv4', num_filters=64, stride=1, size=3, activation='relu'))
             self.add_layer(Pooling(name='pool2', stride=2, size=2))
             self.add_layer(FullyConnected(name='fullyconnected', nodes1=64 * 5 * 5, nodes2=256, activation='relu'))
             self.add_layer(Dense(name='dense', nodes=256, num_classes=10))
