@@ -8,7 +8,6 @@ def softmax(x):
 def cross_entropy(x):
     return -np.log(x)
 
-
 def regularized_cross_entropy(layers, lam, x):
     loss = cross_entropy(x)
     for layer in layers:
