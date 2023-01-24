@@ -81,7 +81,7 @@ class Network:
                 label = dataset['train_labels'][i]
 
                 tmp_output = self.forward(image, plot_feature_maps=0)       # forward propagation
-
+                print(f'{tmp_output.shape}')
                 # compute (regularized) cross-entropy and update loss
                 tmp_loss += regularized_cross_entropy(self.layers, regularization, tmp_output[label])
 
